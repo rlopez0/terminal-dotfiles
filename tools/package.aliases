@@ -1,0 +1,43 @@
+# Package manager aliases by platform.
+# This file defines aliases only for supported package managers already present.
+
+OS_ID=""
+OS_ID_LIKE=""
+
+if [ -f /etc/os-release ]; then
+  . /etc/os-release
+  OS_ID="${ID:-}"
+  OS_ID_LIKE="${ID_LIKE:-}"
+fi
+
+case " ${OS_ID} ${OS_ID_LIKE} " in
+  *" debian "*|*" ubuntu "*)
+    if command -v nala >/dev/null 2>&1; then
+      alias nu='sudo nala update'
+      alias nug='sudo nala upgrade -y'
+      alias ni='sudo nala install -y'
+      alias nr='sudo nala remove -y'
+      alias ns='nala search'
+      alias nc='sudo nala clean'
+    elif command -v apt >/dev/null 2>&1; then
+      alias nu='sudo apt update'
+      alias nug='sudo apt upgrade -y'
+      alias ni='sudo apt install -y'
+      alias nr='sudo apt remove -y'
+      alias ns='apt search'
+      alias nc='sudo apt clean'
+    fi
+    ;;
+  *" rhel "*|*" fedora "*|*" centos "*|*" almalinux "*|*" rocky "*|*" ol "*)
+    if command -v dnf >/dev/null 2>&1; then
+      alias nu='sudo dnf makecache'
+      alias nug='sudo dnf upgrade -y'
+      alias ni='sudo dnf install -y'
+      alias nr='sudo dnf remove -y'
+      alias ns='dnf search'
+      alias nc='sudo dnf clean all'
+    fi
+    ;;
+esac
+
+unset OS_ID OS_ID_LIKE

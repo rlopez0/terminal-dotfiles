@@ -1,0 +1,28 @@
+# Full zsh configuration for macOS and personal environments.
+# Optional tools are enabled only when installed.
+
+# Resolve repo paths even when this file is sourced through ~/.zshrc symlink.
+DOTFILES_SHELL_DIR="$(cd "$(dirname "${(%):-%N}")" && pwd)"
+
+if [ -f "${DOTFILES_SHELL_DIR}/common.exports" ]; then
+  . "${DOTFILES_SHELL_DIR}/common.exports"
+fi
+
+if [ -f "${DOTFILES_SHELL_DIR}/common.aliases" ]; then
+  . "${DOTFILES_SHELL_DIR}/common.aliases"
+fi
+
+# Future integration point for Oh My Zsh.
+# Keep plugin/theme setup conditional so a fresh machine still opens zsh cleanly.
+
+# Initialize zoxide only when available.
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+# Load Powerlevel10k user config only when it exists.
+if [ -f "$HOME/.p10k.zsh" ]; then
+  . "$HOME/.p10k.zsh"
+fi
+
+unset DOTFILES_SHELL_DIR

@@ -1,0 +1,15 @@
+# Optional tool aliases.
+# Aliases are defined only when the related binary exists.
+
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza'
+  alias ll='eza -lah'
+  alias lt='eza --tree'
+fi
+
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat'
+fi
+
+# zoxide is initialized from the shell-specific rc file.
+# fzf may enable shell integrations when installed, depending on future setup.

@@ -1,0 +1,41 @@
+# Common safe aliases for bash and zsh.
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ll='ls -lah'
+alias la='ls -A'
+alias cls='clear'
+alias h='history'
+
+# Enable grep color when supported by the installed grep.
+if grep --color=auto '' /dev/null >/dev/null 2>&1; then
+  alias grep='grep --color=auto'
+fi
+
+# Resolve paths relative to this file, even when sourced through symlinks.
+if [ -n "${BASH_SOURCE:-}" ]; then
+  DOTFILES_SHELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+elif [ -n "${ZSH_VERSION:-}" ]; then
+  DOTFILES_SHELL_DIR="$(cd "$(dirname "${(%):-%N}")" && pwd)"
+else
+  DOTFILES_SHELL_DIR=""
+fi
+
+if [ -n "$DOTFILES_SHELL_DIR" ]; then
+  DOTFILES_ROOT="$(cd "${DOTFILES_SHELL_DIR}/.." && pwd)"
+
+  if [ -f "${DOTFILES_ROOT}/tools/package.aliases" ]; then
+    . "${DOTFILES_ROOT}/tools/package.aliases"
+  fi
+
+  if [ -f "${DOTFILES_ROOT}/tools/optional.aliases" ]; then
+    . "${DOTFILES_ROOT}/tools/optional.aliases"
+  fi
+fi
+
+# Private aliases. This file is intentionally outside the repo.
+if [ -f "$HOME/.dotfiles-local/local.aliases.local" ]; then
+  . "$HOME/.dotfiles-local/local.aliases.local"
+fi
+
+unset DOTFILES_SHELL_DIR DOTFILES_ROOT

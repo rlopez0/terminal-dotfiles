@@ -1,0 +1,26 @@
+# Minimal bash configuration for Linux and conservative environments.
+# No external packages are required.
+
+# Only configure interactive shells.
+case "$-" in
+  *i*) ;;
+  *) return ;;
+esac
+
+# Resolve repo paths even when this file is sourced through ~/.bashrc symlink.
+DOTFILES_SHELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [ -f "${DOTFILES_SHELL_DIR}/common.exports" ]; then
+  . "${DOTFILES_SHELL_DIR}/common.exports"
+fi
+
+if [ -f "${DOTFILES_SHELL_DIR}/common.aliases" ]; then
+  . "${DOTFILES_SHELL_DIR}/common.aliases"
+fi
+
+# Simple colored prompt: user@host cwd $
+if [ -n "${BASH_VERSION:-}" ]; then
+  PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+fi
+
+unset DOTFILES_SHELL_DIR

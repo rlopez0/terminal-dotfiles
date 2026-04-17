@@ -1,0 +1,16 @@
+# Example local aliases and private settings.
+#
+# Copy ideas from this file into:
+#   ~/.dotfiles-local/local.aliases.local
+#
+# Do not commit real private aliases, internal hostnames, IP addresses,
+# secrets, tokens or corporate configuration.
+
+# Homelab example:
+# alias lab-status='ssh user@example-host "uptime"'
+
+# Private path example:
+# export PRIVATE_PROJECTS="$HOME/path/to/private/projects"
+
+# Personal command example:
+# alias notes='cd "$HOME/notes"'

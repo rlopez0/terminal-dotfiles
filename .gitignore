@@ -1,0 +1,23 @@
+# Local and sensitive files.
+local/*.local
+!local/example.local
+
+# Editor swap files.
+*.swp
+*.swo
+*~
+
+# macOS metadata.
+.DS_Store
+
+# Common backups.
+*.bak
+*.backup
+*.orig
+*.old
+
+# Temporary files.
+*.tmp
+*.temp
+tmp/
+temp/
