@@ -5,7 +5,13 @@
 [[ -o interactive ]] || return
 
 # Resolve repo paths even when this file is sourced through ~/.zshrc symlink.
-DOTFILES_SHELL_DIR="$(cd "$(dirname "${(%):-%N}")" && pwd)"
+DOTFILES_SOURCE="${(%):-%N}"
+if command -v readlink >/dev/null 2>&1 && DOTFILES_REAL_SOURCE="$(readlink -f "$DOTFILES_SOURCE" 2>/dev/null)"; then
+  :
+else
+  DOTFILES_REAL_SOURCE="$DOTFILES_SOURCE"
+fi
+DOTFILES_SHELL_DIR="$(cd "$(dirname "$DOTFILES_REAL_SOURCE")" && pwd)"
 
 if [ -f "${DOTFILES_SHELL_DIR}/common.exports" ]; then
   . "${DOTFILES_SHELL_DIR}/common.exports"
@@ -28,4 +34,4 @@ if [ -f "$HOME/.p10k.zsh" ]; then
   . "$HOME/.p10k.zsh"
 fi
 
-unset DOTFILES_SHELL_DIR
+unset DOTFILES_SOURCE DOTFILES_REAL_SOURCE DOTFILES_SHELL_DIR

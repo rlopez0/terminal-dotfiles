@@ -8,7 +8,13 @@ case "$-" in
 esac
 
 # Resolve repo paths even when this file is sourced through ~/.bashrc symlink.
-DOTFILES_SHELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_SOURCE="${BASH_SOURCE[0]}"
+if command -v readlink >/dev/null 2>&1 && DOTFILES_REAL_SOURCE="$(readlink -f "$DOTFILES_SOURCE" 2>/dev/null)"; then
+  :
+else
+  DOTFILES_REAL_SOURCE="$DOTFILES_SOURCE"
+fi
+DOTFILES_SHELL_DIR="$(cd "$(dirname "$DOTFILES_REAL_SOURCE")" && pwd)"
 
 if [ -f "${DOTFILES_SHELL_DIR}/common.exports" ]; then
   . "${DOTFILES_SHELL_DIR}/common.exports"
@@ -23,4 +29,4 @@ if [ -n "${BASH_VERSION:-}" ]; then
   PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 fi
 
-unset DOTFILES_SHELL_DIR
+unset DOTFILES_SOURCE DOTFILES_REAL_SOURCE DOTFILES_SHELL_DIR
