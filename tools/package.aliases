@@ -4,14 +4,14 @@
 OS_ID=""
 OS_ID_LIKE=""
 
-if [ -f /etc/os-release ]; then
+if [ -r /etc/os-release ]; then
   . /etc/os-release
   OS_ID="${ID:-}"
   OS_ID_LIKE="${ID_LIKE:-}"
 fi
 
-case " ${OS_ID} ${OS_ID_LIKE} " in
-  *" debian "*|*" ubuntu "*)
+case "${OS_ID}:${OS_ID_LIKE}" in
+  debian:*|ubuntu:*|*:debian*|*:ubuntu*)
     if command -v nala >/dev/null 2>&1; then
       alias nu='sudo nala update'
       alias nug='sudo nala upgrade -y'
@@ -28,7 +28,7 @@ case " ${OS_ID} ${OS_ID_LIKE} " in
       alias nc='sudo apt clean'
     fi
     ;;
-  *" rhel "*|*" fedora "*|*" centos "*|*" almalinux "*|*" rocky "*|*" ol "*)
+  rhel:*|fedora:*|centos:*|almalinux:*|rocky:*|ol:*|*:rhel*|*:fedora*|*:centos*|*:almalinux*|*:rocky*|*:ol*)
     if command -v dnf >/dev/null 2>&1; then
       alias nu='sudo dnf makecache'
       alias nug='sudo dnf upgrade -y'

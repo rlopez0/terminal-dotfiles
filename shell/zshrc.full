@@ -1,6 +1,9 @@
 # Full zsh configuration for macOS and personal environments.
 # Optional tools are enabled only when installed.
 
+# Only configure interactive shells.
+[[ -o interactive ]] || return
+
 # Resolve repo paths even when this file is sourced through ~/.zshrc symlink.
 DOTFILES_SHELL_DIR="$(cd "$(dirname "${(%):-%N}")" && pwd)"
 

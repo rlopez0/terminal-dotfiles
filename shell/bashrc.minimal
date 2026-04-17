@@ -4,7 +4,7 @@
 # Only configure interactive shells.
 case "$-" in
   *i*) ;;
-  *) return ;;
+  *) return 0 2>/dev/null || exit 0 ;;
 esac
 
 # Resolve repo paths even when this file is sourced through ~/.bashrc symlink.

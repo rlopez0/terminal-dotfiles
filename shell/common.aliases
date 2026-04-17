@@ -2,8 +2,13 @@
 
 alias ..='cd ..'
 alias ...='cd ../..'
+alias l='ls -CF'
 alias ll='ls -lah'
 alias la='ls -A'
+alias lh='ls -d .* 2>/dev/null'
+alias dfh='df -h'
+alias duh='du -sh ./* 2>/dev/null'
+alias mkdirp='mkdir -p'
 alias cls='clear'
 alias h='history'
 

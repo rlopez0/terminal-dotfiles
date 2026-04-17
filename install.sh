@@ -7,6 +7,7 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOCAL_DIR="${HOME}/.dotfiles-local"
+LOCAL_ALIASES="${LOCAL_DIR}/local.aliases.local"
 
 link_file() {
   local source_file="$1"
@@ -18,7 +19,8 @@ link_file() {
   fi
 
   if [ -L "$target_file" ]; then
-    printf 'Updating symlink: %s -> %s\n' "$target_file" "$source_file"
+    printf 'Linking %s\n' "$target_file"
+    printf '  source: %s\n' "$source_file"
     ln -sfn "$source_file" "$target_file"
     return
   fi
@@ -30,8 +32,22 @@ link_file() {
     mv "$target_file" "$backup_file"
   fi
 
-  printf 'Creating symlink: %s -> %s\n' "$target_file" "$source_file"
+  printf 'Linking %s\n' "$target_file"
+  printf '  source: %s\n' "$source_file"
   ln -s "$source_file" "$target_file"
+}
+
+create_local_aliases() {
+  if [ -e "$LOCAL_ALIASES" ]; then
+    printf 'Local aliases file already exists: %s\n' "$LOCAL_ALIASES"
+    return
+  fi
+
+  printf 'Creating local aliases file: %s\n' "$LOCAL_ALIASES"
+  {
+    printf '# Local private aliases for terminal-dotfiles.\n'
+    printf '# Keep secrets, internal hosts and machine-specific commands out of Git.\n'
+  } > "$LOCAL_ALIASES"
 }
 
 printf 'terminal-dotfiles installer\n'
@@ -44,6 +60,9 @@ else
   printf 'Local directory already exists: %s\n' "$LOCAL_DIR"
 fi
 
+create_local_aliases
+
+printf 'Preparing shell symlinks...\n'
 link_file "${REPO_DIR}/shell/bashrc.minimal" "${HOME}/.bashrc"
 link_file "${REPO_DIR}/shell/zshrc.full" "${HOME}/.zshrc"
 
