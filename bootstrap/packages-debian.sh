@@ -38,7 +38,7 @@ install_if_available() {
 PACKAGES=(fzf zoxide bat)
 
 if [ "$MODE" = "full" ]; then
-  PACKAGES+=(nala zsh fastfetch)
+  PACKAGES+=(nala zsh fastfetch eza)
 fi
 
 printf 'Updating apt package index...\n'

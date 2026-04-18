@@ -24,6 +24,8 @@ Modo completo para entornos personales donde quieres más herramientas:
 ./bootstrap/install-packages.sh full
 ```
 
+En Debian/Ubuntu, `full` intenta instalar herramientas adicionales como `eza` si están disponibles en los repositorios configurados.
+
 En servidores productivos de trabajo usa solo:
 
 ```sh
