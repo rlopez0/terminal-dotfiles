@@ -49,6 +49,17 @@ Ejecuta:
 
 El instalador no instala paquetes. Solo prepara enlaces simbólicos y directorios locales.
 
+## Paquetes opcionales
+
+La instalación de paquetes está separada del instalador base. Para equipos personales, VPS y laboratorios puedes usar:
+
+```sh
+./bootstrap/install-packages.sh safe
+./bootstrap/install-packages.sh full
+```
+
+No uses el bootstrap de paquetes en servidores productivos de trabajo. En esos entornos mantén solo `./install.sh`.
+
 ## Shells soportadas
 
 Las configuraciones están pensadas para `bash` y `zsh`.
