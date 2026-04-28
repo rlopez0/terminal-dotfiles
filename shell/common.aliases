@@ -18,10 +18,25 @@ if grep --color=auto '' /dev/null >/dev/null 2>&1; then
 fi
 
 # Resolve paths relative to this file, even when sourced through symlinks.
+DOTFILES_SHELL_SOURCE=""
+DOTFILES_SHELL_REAL_SOURCE=""
+
 if [ -n "${BASH_SOURCE:-}" ]; then
-  DOTFILES_SHELL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  DOTFILES_SHELL_SOURCE="${BASH_SOURCE[0]}"
 elif [ -n "${ZSH_VERSION:-}" ]; then
-  DOTFILES_SHELL_DIR="$(cd "$(dirname "${(%):-%N}")" && pwd)"
+  DOTFILES_SHELL_SOURCE="${(%):-%N}"
+fi
+
+if [ -n "$DOTFILES_SHELL_SOURCE" ]; then
+  if command -v readlink >/dev/null 2>&1; then
+    DOTFILES_SHELL_REAL_SOURCE="$(readlink -f "$DOTFILES_SHELL_SOURCE" 2>/dev/null || printf '')"
+  fi
+
+  if [ -n "$DOTFILES_SHELL_REAL_SOURCE" ]; then
+    DOTFILES_SHELL_DIR="$(cd "$(dirname "$DOTFILES_SHELL_REAL_SOURCE")" && pwd)"
+  else
+    DOTFILES_SHELL_DIR="$(cd "$(dirname "$DOTFILES_SHELL_SOURCE")" && pwd)"
+  fi
 else
   DOTFILES_SHELL_DIR=""
 fi
@@ -43,4 +58,4 @@ if [ -f "$HOME/.dotfiles-local/local.aliases.local" ]; then
   . "$HOME/.dotfiles-local/local.aliases.local"
 fi
 
-unset DOTFILES_SHELL_DIR DOTFILES_ROOT
+unset DOTFILES_SHELL_SOURCE DOTFILES_SHELL_REAL_SOURCE DOTFILES_SHELL_DIR DOTFILES_ROOT
