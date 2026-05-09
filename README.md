@@ -14,24 +14,6 @@ Este repo separa la personalización por nivel de invasión:
 
 Consulta [docs/profiles.md](docs/profiles.md) para más detalle sobre cuándo usar cada perfil.
 
-## Seguridad
-
-No guardes en este repositorio:
-
-- Llaves privadas SSH.
-- Tokens, contraseñas o secretos.
-- IPs internas o nombres reales de infraestructura privada.
-- Aliases locales sensibles.
-- Configuraciones corporativas o de clientes.
-
-Para ajustes privados usa archivos locales ignorados por Git, por ejemplo:
-
-```sh
-~/.dotfiles-local/local.aliases.local
-```
-
-Puedes usar `local/example.local` como plantilla.
-
 ## Instalación
 
 El script `install.sh` crea symlinks desde este repositorio hacia los archivos estándar de shell del usuario:
